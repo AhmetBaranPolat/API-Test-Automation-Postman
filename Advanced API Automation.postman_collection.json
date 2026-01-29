@@ -1,0 +1,35 @@
+{
+  "info": {
+    "_postman_id": "9249fe63-7041-4e8d-ac7d-32b331c933a8",
+    "name": "Advanced API Automation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "44110683",
+    "_collection_link": "https://go.postman.co/collection/44110683-9249fe63-7041-4e8d-ac7d-32b331c933a8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create Dynamic User",
+      "request": {
+        "method": "POST",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Get Created User",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Delete User",
+      "request": {
+        "method": "DELETE",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
