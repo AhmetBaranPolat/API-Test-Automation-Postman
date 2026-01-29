@@ -1,0 +1,208 @@
+{
+  "info": {
+    "_postman_id": "390d4b32-7ab8-4051-b929-c266cf5d1147",
+    "name": "Portfolio API Projects",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "44110683",
+    "_collection_link": "https://go.postman.co/collection/44110683-390d4b32-7ab8-4051-b929-c266cf5d1147?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Bağlantı Başarılı\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Veri içeriği dolu geliyor\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.id).to.not.be.null;\r",
+              "});\r",
+              "const schema = {\r",
+              "  \"type\": \"object\",\r",
+              "  \"required\": [\"userId\", \"id\", \"title\", \"body\"],\r",
+              "  \"properties\": {\r",
+              "    \"userId\": { \"type\": \"number\" },\r",
+              "    \"id\": { \"type\": \"number\" },\r",
+              "    \"title\": { \"type\": \"string\" },\r",
+              "    \"body\": { \"type\": \"string\" }\r",
+              "  }\r",
+              "};\r",
+              "\r",
+              "pm.test(\"Şema Yapısı Doğru mu?\", function () {\r",
+              "    pm.response.to.have.jsonSchema(schema);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. Durum kodu 201 olmalı (Created)\r",
+              "pm.test(\"Veri başarıyla oluşturuldu\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "// 2. Gelen yanıtta ID var mı?\r",
+              "pm.test(\"ID başarıyla atandı\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.id).to.exist;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Portfolio Test\",\r\n    \"body\": \"Bu bir test içeriğidir.\",\r\n    \"userId\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Put",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Güncelleme Başarılı (200 OK)\", () => {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Veri başarıyla değişti mi?\", () => {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.title).to.eql(\"Güncellenmiş Başlık\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Güncellenmiş Başlık\",\r\n    \"body\": \"Bu içerik test tarafından güncellendi.\",\r\n    \"userId\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. Durum Kodu Kontrolü: 200 (OK) veya 204 (No Content) beklenir.\r",
+              "// JSONPlaceholder 200 döner, biz de onu test edelim.\r",
+              "pm.test(\"Silme İşlemi Başarılı (Status 200)\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// 2. Yanıt Süresi Kontrolü (Performans)\r",
+              "pm.test(\"Silme işlemi 300ms'den kısa sürdü\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+              "});\r",
+              "\r",
+              "// 3. Güvenlik Kontrolü: Gerçek projelerde silinen veri geri dönmemeli\r",
+              "pm.test(\"Yanıt içeriği boş mu?\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    // JSONPlaceholder silince {} (boş obje) döner\r",
+              "    pm.expect(response).to.be.empty;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/posts/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
